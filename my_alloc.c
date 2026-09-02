@@ -9,10 +9,6 @@ typedef struct Memory_Block {
     struct Memory_Block* next;
 } Memory_Block;
 
-struct test {
-    int integer;
-};
-
 static Memory_Block* free_blocks = NULL;
 
 void initialize_memory_block(){
