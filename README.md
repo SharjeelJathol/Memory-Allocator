@@ -19,3 +19,13 @@ Allignment:
     Alligning for data types
     Memory address must be a multiple of its variable's size
 
+Compiling:
+    mkdir build
+    cd build
+    cmake ..
+    make
+
+Execution:
+    ./test_allocator_c for execution
+    make valgrind_c
+    cmake --build . --target valgrind_c
