@@ -18,6 +18,15 @@ void initialize_memory_block(){
 }
 
 void* my_malloc(size_t required_memory_size){
+
+    if(required_memory_size == 0){
+        return NULL;
+    }
+
+    if(free_blocks == NULL){
+        initialize_memory_block();
+    }
+
     struct Memory_Block* current = free_blocks;
     struct Memory_Block* prev = NULL;
 
@@ -47,8 +56,7 @@ void* my_malloc(size_t required_memory_size){
                 prev = NULL;
                 return (char*)current + sizeof(Memory_Block);
               
-            }
-            else{
+            } else {
                 // Exactly equal to the required size
                 // Perfect sized block found
                 if(prev){
@@ -60,13 +68,13 @@ void* my_malloc(size_t required_memory_size){
                 prev = NULL;
                 return (char*)current + sizeof(Memory_Block);
             }
-
-            prev = current;
-            current = current->next;
         }
 
-        return NULL;
+        prev = current;
+        current = current->next;
     }
+
+    return NULL;
 }
 
 int main(){
@@ -80,6 +88,5 @@ int main(){
     printf("array2:          %p\n", array2);
     printf("free_blocks:     %p\n", free_blocks);
 
-    // printf("%ld\n", free_blocks->block_size);
     return 0;
 }
