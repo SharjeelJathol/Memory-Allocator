@@ -88,22 +88,3 @@ void my_free(void* ptr_to_memory_space_to_be_freed){
     block_to_be_freed = NULL;
     return;
 }
-
-int main(){
-    initialize_memory_block();
-    printf("Size of Memory Block: %ld\n", sizeof(Memory_Block));
-    printf("free_blocks:     %p\n", free_blocks);
-    char* array = (char*)my_malloc(10);
-    printf("array:           %p\n", array);
-    printf("free_blocks:     %p\n", free_blocks);
-    char* array2 = (char*)my_malloc(16);
-    printf("array2:          %p\n", array2);
-    printf("free_blocks:     %p\n", free_blocks);
-
-    my_free(array2);
-    printf("free_blocks:     %p\n", free_blocks);
-    my_free(array);
-    printf("free_blocks:     %p\n", free_blocks);
-
-    return 0;
-}
