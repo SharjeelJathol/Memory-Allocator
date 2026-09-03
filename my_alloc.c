@@ -23,6 +23,10 @@ void* my_malloc(size_t required_memory_size){
         return NULL;
     }
 
+    if(free_blocks == NULL){
+        initialize_memory_block();
+    }
+
     struct Memory_Block* current = free_blocks;
     struct Memory_Block* prev = NULL;
 
@@ -73,6 +77,18 @@ void* my_malloc(size_t required_memory_size){
     return NULL;
 }
 
+void my_free(void* ptr_to_memory_space_to_be_freed){
+    if(ptr_to_memory_space_to_be_freed == NULL){
+        return;
+    }
+
+    struct Memory_Block* block_to_be_freed = (struct Memory_Block*)((char*)ptr_to_memory_space_to_be_freed - sizeof(Memory_Block));
+    block_to_be_freed->next = free_blocks;
+    free_blocks = block_to_be_freed;
+    block_to_be_freed = NULL;
+    return;
+}
+
 int main(){
     initialize_memory_block();
     printf("Size of Memory Block: %ld\n", sizeof(Memory_Block));
@@ -82,6 +98,11 @@ int main(){
     printf("free_blocks:     %p\n", free_blocks);
     char* array2 = (char*)my_malloc(16);
     printf("array2:          %p\n", array2);
+    printf("free_blocks:     %p\n", free_blocks);
+
+    my_free(array2);
+    printf("free_blocks:     %p\n", free_blocks);
+    my_free(array);
     printf("free_blocks:     %p\n", free_blocks);
 
     return 0;
