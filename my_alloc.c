@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "my_alloc.h"
+#include "string.h"
 
 #define RAM_size (1024 * 1024)   // 1MB RAM size
 static unsigned char memory_size[RAM_size];
@@ -89,6 +90,37 @@ void my_free(void* ptr_to_memory_space_to_be_freed){
     return;
 }
 
+void* my_realloc(void* ptr_to_memory_space, size_t new_size){
+    if(ptr_to_memory_space == NULL){
+        return my_malloc(new_size);
+    }
+
+    void* new_ptr = my_malloc(new_size);
+    if(new_ptr == NULL) return NULL;
+
+    // create new block with updated size
+    struct Memory_Block* new_block = (struct Memory_Block*)((char*)new_ptr - sizeof(Memory_Block));
+    if(new_block == NULL){
+        return NULL;
+    }
+
+    // get reference to the old block
+    struct Memory_Block* current_block = (struct Memory_Block*)((char*)ptr_to_memory_space - sizeof(Memory_Block));
+    size_t current_size = current_block->block_size;
+
+    // copy the elements to the new block
+    memcpy((char*)new_block + sizeof(Memory_Block), ptr_to_memory_space, current_size < new_size ? current_size : new_size);
+
+    // Put the current block back into the free list
+    current_block->next = free_blocks;
+    free_blocks = current_block;
+    current_block = NULL;
+
+    // return the writable address of the new block i.e. excluding the header
+    return (char*)new_block + sizeof(Memory_Block);
+
+}
+
 void* my_calloc(size_t number_of_elements, size_t size_of_element){
     size_t total_size = number_of_elements * size_of_element;
 
@@ -98,6 +130,6 @@ void* my_calloc(size_t number_of_elements, size_t size_of_element){
             ((unsigned char*)ptr)[i] = 0;
         }
     }
-    
+
     return ptr;
 }
