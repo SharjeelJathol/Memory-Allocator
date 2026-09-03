@@ -20,6 +20,14 @@ int main() {
         printf("String: %s\n", str);
     }
     
+    // my_calloc (zero-initialized)
+    int* zeros = (int*)my_calloc(5, sizeof(int));
+    if (zeros) {
+        for (int i = 0; i < 5; i++) {
+            printf("zeros[%d] = %d (should be 0)\n", i, zeros[i]);
+        }
+    }
+    
     // allocate and free memory
     void* p = my_malloc(100);
     printf("Allocated 100 bytes\n");
