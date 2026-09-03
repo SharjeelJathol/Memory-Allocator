@@ -11,9 +11,15 @@ Empty Memory Holes:
 
 Implement:
     void* my_malloc(size_t size)
+        Allocates a contiguous block of memory on the heap at runtime. The allocated memory is
+         uninitialized, so its contents have an indeterminate value.
     void my_free(void* ptr)
+        Frees allocated memory
     void* my_calloc(size_t num, size_t size)
+        Allocates memory for multiple elements and initializes all allocated bytes to zero.
     void* my_realloc(void* ptr, size_t size)
+        Changes the size of a previously allocated memory block. It can be used to increase or
+         decrease the amount of dynamically allocated memory.
 
 Allignment:
     Alligning for data types

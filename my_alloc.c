@@ -88,3 +88,16 @@ void my_free(void* ptr_to_memory_space_to_be_freed){
     block_to_be_freed = NULL;
     return;
 }
+
+void* my_calloc(size_t number_of_elements, size_t size_of_element){
+    size_t total_size = number_of_elements * size_of_element;
+
+    void* ptr = my_malloc(total_size);
+    if(ptr){
+        for(size_t i = 0; i < total_size; i++){
+            ((unsigned char*)ptr)[i] = 0;
+        }
+    }
+    
+    return ptr;
+}
