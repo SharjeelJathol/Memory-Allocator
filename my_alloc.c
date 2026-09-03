@@ -92,7 +92,7 @@ void my_free(void* ptr_to_memory_space_to_be_freed){
 
 void* my_realloc(void* ptr_to_memory_space, size_t new_size){
     if(ptr_to_memory_space == NULL){
-        return NULL;
+        return my_malloc(new_size);
     }
 
     void* new_ptr = my_malloc(new_size);
