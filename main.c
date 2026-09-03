@@ -3,6 +3,8 @@
 #include "my_alloc.h"
 
 int main() {
+    initialize_memory_block();
+    
     printf("=== Testing my_malloc ===\n");
     
     // Basic allocation

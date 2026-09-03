@@ -1,4 +1,6 @@
 #include "stdio.h"
+// #include "limits.h"
+#include "stdint.h"
 #include "my_alloc.h"
 #include "string.h"
 
@@ -22,10 +24,6 @@ void* my_malloc(size_t required_memory_size){
 
     if(required_memory_size == 0){
         return NULL;
-    }
-
-    if(free_blocks == NULL){
-        initialize_memory_block();
     }
 
     struct Memory_Block* current = free_blocks;
@@ -79,6 +77,7 @@ void* my_malloc(size_t required_memory_size){
 }
 
 void my_free(void* ptr_to_memory_space_to_be_freed){
+    
     if(ptr_to_memory_space_to_be_freed == NULL){
         return;
     }
@@ -91,6 +90,7 @@ void my_free(void* ptr_to_memory_space_to_be_freed){
 }
 
 void* my_realloc(void* ptr_to_memory_space, size_t new_size){
+
     if(ptr_to_memory_space == NULL){
         return my_malloc(new_size);
     }
@@ -122,14 +122,25 @@ void* my_realloc(void* ptr_to_memory_space, size_t new_size){
 }
 
 void* my_calloc(size_t number_of_elements, size_t size_of_element){
+
+    if(number_of_elements * size_of_element > SIZE_MAX){
+        return NULL;
+    }
+
     size_t total_size = number_of_elements * size_of_element;
+
+    if(total_size == 0){
+        return NULL;
+    }
 
     void* ptr = my_malloc(total_size);
     if(ptr){
         for(size_t i = 0; i < total_size; i++){
             ((unsigned char*)ptr)[i] = 0;
         }
+
+        return ptr;
     }
 
-    return ptr;
+    return NULL;
 }
