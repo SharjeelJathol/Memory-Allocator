@@ -23,6 +23,10 @@ void* my_malloc(size_t required_memory_size){
         return NULL;
     }
 
+    if(free_blocks == NULL){
+        initialize_memory_block();
+    }
+
     struct Memory_Block* current = free_blocks;
     struct Memory_Block* prev = NULL;
 
